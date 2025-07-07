@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplikasi Keuangan MILANS MONEY - Kelola keuangan pribadi untuk Mils dan Dul">
+    <title>MILANS MONEY - Aplikasi Keuangan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --info: #0984e3;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid #dfe6e9;
+            position: relative;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .user-switch {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .user-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            background-color: var(--secondary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .user-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .user-btn.active {
+            background-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #dfe6e9;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 i {
+            font-size: 1.3rem;
+        }
+        
+        .balance {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary);
+            padding: 15px;
+            background-color: rgba(108, 92, 231, 0.1);
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe6e9;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+            box-shadow: var(--shadow);
+        }
+        
+        button i {
+            font-size: 1rem;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #ff7675;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: #55efc4;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        .btn-warning:hover {
+            background-color: #ffeaa7;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dfe6e9;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-container {
+            margin-top: 20px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #dfe6e9;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+            position: relative;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .export-btn {
+            margin-top: 20px;
+            background-color: var(--info);
+            width: 100%;
+        }
+        
+        .export-btn:hover {
+            background-color: #74b9ff;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-container h1 {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        
+        .savings-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .saving-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .saving-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .saving-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .saving-card h3 i {
+            font-size: 1.2rem;
+        }
+        
+        .saving-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: var(--primary);
+            padding: 10px;
+            background-color: rgba(108, 92, 231, 0.1);
+            border-radius: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--dark);
+            font-size: 0.9rem;
+            border-top: 1px solid #dfe6e9;
+        }
+        
+        /* Responsive tables */
+        @media (max-width: 600px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div id="notification" class="notification hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-message">Operasi berhasil</span>
+    </div>
+    
+    <div id="login-page" class="container">
+        <div class="login-container">
+            <h1><i class="fas fa-wallet logo"></i> MILANS MONEY</h1>
+            <div class="form-group">
+                <select id="login-user" class="form-control">
+                    <option value="">Pilih User</option>
+                    <option value="Mils">Mils</option>
+                    <option value="Dul">Dul</option>
+                </select>
+            </div>
+            <button id="login-btn" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Masuk
+            </button>
+        </div>
+    </div>
+    
+    <div id="app-container" class="container hidden">
+        <header>
+            <div class="logo"><i class="fas fa-wallet"></i></div>
+            <h1>MILANS MONEY</h1>
+            <div class="user-switch">
+                <button id="mils-btn" class="user-btn">
+                    <i class="fas fa-user"></i> Mils
+                </button>
+                <button id="dul-btn" class="user-btn">
+                    <i class="fas fa-user"></i> Dul
+                </button>
+            </div>
+        </header>
+        
+        <div class="dashboard">
+            <div class="card">
+                <h2><i class="fas fa-money-bill-wave"></i> Saldo</h2>
+                <div id="current-balance" class="balance">Rp 0</div>
+                
+                <div class="form-group">
+                    <label for="transaction-type"><i class="fas fa-exchange-alt"></i> Jenis Transaksi</label>
+                    <select id="transaction-type" class="form-control">
+                        <option value="income">Pemasukan</option>
+                        <option value="expense">Pengeluaran</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount"><i class="fas fa-coins"></i> Jumlah</label>
+                    <input type="number" id="amount" class="form-control" placeholder="Rp">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-comment"></i> Keterangan</label>
+                    <input type="text" id="description" class="form-control" placeholder="Deskripsi transaksi">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date"><i class="fas fa-calendar"></i> Tanggal</label>
+                    <input type="date" id="date" class="form-control">
+                </div>
+                
+                <button id="add-transaction" class="btn-success">
+                    <i class="fas fa-plus"></i> Tambah Transaksi
+                </button>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-chart-bar"></i> Statistik</h2>
+                <div class="chart-container">
+                    <canvas id="finance-chart"></canvas>
+                </div>
+                <button id="export-data" class="export-btn">
+                    <i class="fas fa-file-excel"></i> Export ke Excel
+                </button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-history"></i> Riwayat Transaksi</h2>
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="all">
+                        <i class="fas fa-list"></i> Semua
+                    </button>
+                    <button class="tab-btn" data-tab="income">
+                        <i class="fas fa-arrow-down"></i> Pemasukan
+                    </button>
+                    <button class="tab-btn" data-tab="expense">
+                        <i class="fas fa-arrow-up"></i> Pengeluaran
+                    </button>
+                </div>
+                
+                <div class="tab-content active" id="all-transactions">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jenis</th>
+                                <th>Jumlah</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="income-transactions">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jumlah</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="income-table">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="expense-transactions">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jumlah</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-table">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-piggy-bank"></i> Tabungan</h2>
+            <div class="savings-cards">
+                <div class="saving-card">
+                    <h3><i class="fas fa-ambulance"></i> Dana Darurat</h3>
+                    <div id="emergency-fund" class="saving-amount">Rp 0</div>
+                    <div class="form-group">
+                        <input type="number" id="emergency-amount" class="form-control" placeholder="Jumlah">
+                    </div>
+                    <div class="actions">
+                        <button data-saving="emergency" data-type="income" class="btn-success">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                        <button data-saving="emergency" data-type="expense" class="btn-danger">
+                            <i class="fas fa-minus"></i> Kurangi
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="saving-card">
+                    <h3><i class="fas fa-retirement"></i> Tabungan Pensiun</h3>
+                    <div id="retirement-fund" class="saving-amount">Rp 0</div>
+                    <div class="form-group">
+                        <input type="number" id="retirement-amount" class="form-control" placeholder="Jumlah">
+                    </div>
+                    <div class="actions">
+                        <button data-saving="retirement" data-type="income" class="btn-success">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                        <button data-saving="retirement" data-type="expense" class="btn-danger">
+                            <i class="fas fa-minus"></i> Kurangi
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="saving-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Tabungan Pendidikan</h3>
+                    <div id="education-fund" class="saving-amount">Rp 0</div>
+                    <div class="form-group">
+                        <input type="number" id="education-amount" class="form-control" placeholder="Jumlah">
+                    </div>
+                    <div class="actions">
+                        <button data-saving="education" data-type="income" class="btn-success">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                        <button data-saving="education" data-type="expense" class="btn-danger">
+                            <i class="fas fa-minus"></i> Kurangi
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="saving-card">
+                    <h3><i class="fas fa-baby"></i> Tabungan Anak</h3>
+                    <div id="child-fund" class="saving-amount">Rp 0</div>
+                    <div class="form-group">
+                        <input type="number" id="child-amount" class="form-control" placeholder="Jumlah">
+                    </div>
+                    <div class="actions">
+                        <button data-saving="child" data-type="income" class="btn-success">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                        <button data-saving="child" data-type="expense" class="btn-danger">
+                            <i class="fas fa-minus"></i> Kurangi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>MILANS MONEY &copy; 2023 - Aplikasi Keuangan untuk Mils dan Dul</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script>
+        // Data structure
+        let appData = {
+            currentUser: null,
+            users: {
+                Mils: {
+                    balance: 0,
+                    transactions: [],
+                    savings: {
+                        emergency: 0,
+                        retirement: 0,
+                        education: 0,
+                        child: 0
+                    }
+                },
+                Dul: {
+                    balance: 0,
+                    transactions: [],
+                    savings: {
+                        emergency: 0,
+                        retirement: 0,
+                        education: 0,
+                        child: 0
+                    }
+                }
+            },
+            sharedStats: {
+                totalIncome: 0,
+                totalExpense: 0,
+                lastUpdated: null
+            }
+        };
+
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const appContainer = document.getElementById('app-container');
+        const loginUser = document.getElementById('login-user');
+        const loginBtn = document.getElementById('login-btn');
+        const milsBtn = document.getElementById('mils-btn');
+        const dulBtn = document.getElementById('dul-btn');
+        const currentBalance = document.getElementById('current-balance');
+        const transactionType = document.getElementById('transaction-type');
+        const amountInput = document.getElementById('amount');
+        const descriptionInput = document.getElementById('description');
+        const dateInput = document.getElementById('date');
+        const addTransactionBtn = document.getElementById('add-transaction');
+        const transactionsTable = document.getElementById('transactions-table');
+        const incomeTable = document.getElementById('income-table');
+        const expenseTable = document.getElementById('expense-table');
+        const exportBtn = document.getElementById('export-data');
+        const financeChart = document.getElementById('finance-chart');
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        
+        // Savings elements
+        const emergencyFund = document.getElementById('emergency-fund');
+        const retirementFund = document.getElementById('retirement-fund');
+        const educationFund = document.getElementById('education-fund');
+        const childFund = document.getElementById('child-fund');
+        
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Chart instance
+        let financeChartInstance = null;
+
+        // Initialize app
+        function initApp() {
+            // Load data from localStorage
+            loadData();
+            
+            // Set current date as default
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+            
+            // Event listeners
+            loginBtn.addEventListener('click', handleLogin);
+            milsBtn.addEventListener('click', () => switchUser('Mils'));
+            dulBtn.addEventListener('click', () => switchUser('Dul'));
+            addTransactionBtn.addEventListener('click', addTransaction);
+            exportBtn.addEventListener('click', exportToExcel);
+            
+            // Tab buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    showTab(tabId);
+                });
+            });
+            
+            // Savings buttons
+            document.querySelectorAll('[data-saving]').forEach(button => {
+                button.addEventListener('click', updateSavings);
+            });
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('milansMoneyData');
+            if (savedData) {
+                appData = JSON.parse(savedData);
+            }
+            
+            const savedStats = localStorage.getItem('milansMoneyStats');
+            if (savedStats) {
+                appData.sharedStats = JSON.parse(savedStats);
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('milansMoneyData', JSON.stringify(appData));
+            localStorage.setItem('milansMoneyStats', JSON.stringify(appData.sharedStats));
+        }
+
+        // Show notification
+        function showNotification(message, isError = false) {
+            notificationMessage.textContent = message;
+            notification.classList.remove('error');
+            
+            if (isError) {
+                notification.classList.add('error');
+                notification.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else {
+                notification.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            notification.classList.remove('hidden');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        // Handle login
+        function handleLogin() {
+            const selectedUser = loginUser.value;
+            if (!selectedUser) {
+                showNotification('Silakan pilih user', true);
+                return;
+            }
+            
+            appData.currentUser = selectedUser;
+            loginPage.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            
+            // Update UI for the selected user
+            updateUI();
+            
+            showNotification(`Selamat datang, ${selectedUser}!`);
+        }
+
+        // Switch between users
+        function switchUser(user) {
+            appData.currentUser = user;
+            
+            // Update active button
+            milsBtn.classList.remove('active');
+            dulBtn.classList.remove('active');
+            
+            if (user === 'Mils') {
+                milsBtn.classList.add('active');
+            } else {
+                dulBtn.classList.add('active');
+            }
+            
+            // Update UI
+            updateUI();
+            
+            showNotification(`Beralih ke akun ${user}`);
+        }
+
+        // Update all UI elements
+        function updateUI() {
+            if (!appData.currentUser) return;
+            
+            const userData = appData.users[appData.currentUser];
+            
+            // Update balance
+            currentBalance.textContent = formatCurrency(userData.balance);
+            
+            // Update transactions table
+            updateTransactionsTable();
+            
+            // Update savings
+            emergencyFund.textContent = formatCurrency(userData.savings.emergency);
+            retirementFund.textContent = formatCurrency(userData.savings.retirement);
+            educationFund.textContent = formatCurrency(userData.savings.education);
+            childFund.textContent = formatCurrency(userData.savings.child);
+            
+            // Update chart
+            updateChart();
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+
+        // Add new transaction
+        function addTransaction() {
+            const amount = parseFloat(amountInput.value);
+            const description = descriptionInput.value.trim();
+            const type = transactionType.value;
+            const date = dateInput.value;
+            
+            if (!amount || amount <= 0) {
+                showNotification('Masukkan jumlah yang valid', true);
+                return;
+            }
+            
+            if (!description) {
+                showNotification('Masukkan keterangan transaksi', true);
+                return;
+            }
+            
+            if (!date) {
+                showNotification('Pilih tanggal transaksi', true);
+                return;
+            }
+            
+            const userData = appData.users[appData.currentUser];
+            const transaction = {
+                id: Date.now(),
+                date,
+                type,
+                amount,
+                description
+            };
+            
+            userData.transactions.push(transaction);
+            
+            // Update balance
+            if (type === 'income') {
+                userData.balance += amount;
+                appData.sharedStats.totalIncome += amount;
+            } else {
+                userData.balance -= amount;
+                appData.sharedStats.totalExpense += amount;
+            }
+            
+            appData.sharedStats.lastUpdated = new Date().toISOString();
+            
+            // Save data
+            saveData();
+            
+            // Update UI
+            updateUI();
+            
+            // Show success message
+            const transactionTypeText = type === 'income' ? 'Pemasukan' : 'Pengeluaran';
+            showNotification(`${transactionTypeText} sebesar ${formatCurrency(amount)} berhasil ditambahkan`);
+            
+            // Clear form
+            amountInput.value = '';
+            descriptionInput.value = '';
+        }
+
+        // Update transactions table
+        function updateTransactionsTable() {
+            const userData = appData.users[appData.currentUser];
+            
+            // Sort transactions by date (newest first)
+            const sortedTransactions = [...userData.transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // All transactions
+            transactionsTable.innerHTML = '';
+            sortedTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${formatDate(transaction.date)}</td>
+                    <td><span class="badge ${transaction.type === 'income' ? 'income' : 'expense'}">
+                        ${transaction.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}
+                    </span></td>
+                    <td class="${transaction.type === 'income' ? 'text-success' : 'text-danger'}">
+                        ${transaction.type === 'income' ? '+' : '-'} ${formatCurrency(transaction.amount)}
+                    </td>
+                    <td>${transaction.description}</td>
+                    <td class="actions">
+                        <button data-id="${transaction.id}" class="btn-danger">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                `;
+                
+                transactionsTable.appendChild(row);
+            });
+            
+            // Income transactions
+            incomeTable.innerHTML = '';
+            sortedTransactions
+                .filter(t => t.type === 'income')
+                .forEach(transaction => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${formatDate(transaction.date)}</td>
+                        <td class="text-success">+ ${formatCurrency(transaction.amount)}</td>
+                        <td>${transaction.description}</td>
+                        <td class="actions">
+                            <button data-id="${transaction.id}" class="btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </td>
+                    `;
+                    
+                    incomeTable.appendChild(row);
+                });
+            
+            // Expense transactions
+            expenseTable.innerHTML = '';
+            sortedTransactions
+                .filter(t => t.type === 'expense')
+                .forEach(transaction => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${formatDate(transaction.date)}</td>
+                        <td class="text-danger">- ${formatCurrency(transaction.amount)}</td>
+                        <td>${transaction.description}</td>
+                        <td class="actions">
+                            <button data-id="${transaction.id}" class="btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </td>
+                    `;
+                    
+                    expenseTable.appendChild(row);
+                });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('[data-id]').forEach(button => {
+                button.addEventListener('click', deleteTransaction);
+            });
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        // Delete transaction
+        function deleteTransaction(e) {
+            if (!confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) return;
+            
+            const transactionId = parseInt(e.target.closest('button').getAttribute('data-id'));
+            const userData = appData.users[appData.currentUser];
+            const transactionIndex = userData.transactions.findIndex(t => t.id === transactionId);
+            
+            if (transactionIndex === -1) return;
+            
+            const transaction = userData.transactions[transactionIndex];
+            
+            // Update balance
+            if (transaction.type === 'income') {
+                userData.balance -= transaction.amount;
+                appData.sharedStats.totalIncome -= transaction.amount;
+            } else {
+                userData.balance += transaction.amount;
+                appData.sharedStats.totalExpense -= transaction.amount;
+            }
+            
+            // Remove transaction
+            userData.transactions.splice(transactionIndex, 1);
+            
+            // Save data
+            saveData();
+            
+            // Update UI
+            updateUI();
+            
+            showNotification('Transaksi berhasil dihapus');
+        }
+
+        // Show selected tab
+        function showTab(tabId) {
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('data-tab') === tabId) {
+                    button.classList.add('active');
+                }
+            });
+            
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === `${tabId}-transactions`) {
+                    content.classList.add('active');
+                }
+            });
+        }
+
+        // Update savings
+        function updateSavings(e) {
+            const button = e.target.closest('button');
+            const savingType = button.getAttribute('data-saving');
+            const operationType = button.getAttribute('data-type');
+            const amountInput = document.getElementById(`${savingType}-amount`);
+            const amount = parseFloat(amountInput.value);
+            
+            if (!amount || amount <= 0) {
+                showNotification('Masukkan jumlah yang valid', true);
+                return;
+            }
+            
+            const userData = appData.users[appData.currentUser];
+            
+            if (operationType === 'income') {
+                userData.savings[savingType] += amount;
+                showNotification(`Berhasil menambah tabungan ${getSavingName(savingType)} sebesar ${formatCurrency(amount)}`);
+            } else {
+                if (userData.savings[savingType] < amount) {
+                    showNotification('Saldo tidak mencukupi', true);
+                    return;
+                }
+                userData.savings[savingType] -= amount;
+                showNotification(`Berhasil mengurangi tabungan ${getSavingName(savingType)} sebesar ${formatCurrency(amount)}`);
+            }
+            
+            // Save data
+            saveData();
+            
+            // Update UI
+            updateUI();
+            
+            // Clear input
+            amountInput.value = '';
+        }
+
+        // Get saving name
+        function getSavingName(type) {
+            const names = {
+                emergency: 'Dana Darurat',
+                retirement: 'Tabungan Pensiun',
+                education: 'Tabungan Pendidikan',
+                child: 'Tabungan Anak'
+            };
+            return names[type] || type;
+        }
+
+        // Update chart
+        function updateChart() {
+            const userData = appData.users[appData.currentUser];
+            
+            // Calculate income and expense totals
+            const incomeTotal = userData.transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const expenseTotal = userData.transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            // Destroy previous chart if exists
+            if (financeChartInstance) {
+                financeChartInstance.destroy();
+            }
+            
+            // Create new chart
+            const ctx = financeChart.getContext('2d');
+            financeChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Pemasukan', 'Pengeluaran'],
+                    datasets: [{
+                        label: 'Total Transaksi',
+                        data: [incomeTotal, expenseTotal],
+                        backgroundColor: [
+                            'rgba(0, 184, 148, 0.7)',
+                            'rgba(214, 48, 49, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 184, 148, 1)',
+                            'rgba(214, 48, 49, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rp ' + value.toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': Rp ' + context.raw.toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Export to Excel
+        function exportToExcel() {
+            const userData = appData.users[appData.currentUser];
+            
+            // Prepare data
+            const data = [
+                ['Tanggal', 'Jenis', 'Jumlah', 'Keterangan', 'Saldo']
+            ];
+            
+            let runningBalance = 0;
+            
+            // Sort transactions by date
+            const sortedTransactions = [...userData.transactions].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            sortedTransactions.forEach(transaction => {
+                if (transaction.type === 'income') {
+                    runningBalance += transaction.amount;
+                } else {
+                    runningBalance -= transaction.amount;
+                }
+                
+                data.push([
+                    formatDate(transaction.date),
+                    transaction.type === 'income' ? 'Pemasukan' : 'Pengeluaran',
+                    transaction.amount,
+                    transaction.description,
+                    runningBalance
+                ]);
+            });
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Transaksi');
+            
+            // Export
+            const dateStr = new Date().toISOString().split('T')[0];
+            XLSX.writeFile(wb, `MilansMoney_${appData.currentUser}_${dateStr}.xlsx`);
+            
+            showNotification('Data berhasil diexport ke Excel');
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
